@@ -1,57 +1,723 @@
-% Define document class
-\documentclass[twocolumn]{aastex631}
-\usepackage{showyourwork}
+%                                                                 aa.dem
+% AA vers. 9.1, LaTeX class for Astronomy & Astrophysics
+% demonstration file
+%                                                       (c) EDP Sciences
+%-----------------------------------------------------------------------
+%
+%\documentclass[referee]{aa} % for a referee version
+%\documentclass[onecolumn]{aa} % for a paper on 1 column  
+%\documentclass[longauth]{aa} % for the long lists of affiliations 
+%\documentclass[letter]{aa} % for the letters 
+%\documentclass[bibyear]{aa} % if the references are not structured 
+%                              according to the author-year natbib style
 
-% Begin!
-\begin{document}
+%
+\documentclass{aa}  
 
-% Title
-\title{An open source scientific article}
+%
+%\usepackage{graphicx}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{txfonts}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage[options]{hyperref}
+% To add links in your PDF file, use the package "hyperref"
+% with options according to your LaTeX or PDFLaTeX drivers.
+%
+\usepackage{natbib}
+%\bibliographystyle{apj}
+\bibliographystyle{mnras}
+\usepackage{empheq}
+\usepackage{tabu,booktabs}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage[english]{babel}
+\usepackage{graphicx}
+\usepackage{xspace}
+\usepackage{mathtools}
+\usepackage{longtable}
+\usepackage{threeparttablex}
+\usepackage{array}
+\usepackage{tabularx}
+%\usepackage{pdflscape}
 
-% Author list
-\author{@tobibu}
+%%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
 
-% Abstract with filler text
-\begin{abstract}
-    Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-    Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-    Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-    Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-    Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-    Phasellus eu tellus sit amet tortor gravida placerat.
-    Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-    Praesent eget sem vel leo ultrices bibendum.
-    Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-    Curabitur auctor semper nulla donec varius orci eget risus.
-    Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-    Duis eget orci sit amet orci dignissim rutrum.
-\end{abstract}
+\newcommand{\C}{\texttt{Chempy}}
+\newcommand{\G}{\texttt{Gasoline2}}
 
-% Main body with filler text
+\def \etal {et~al.~}
+\newcommand{\T}[1]{{\color{blue}{\bf T}:~ #1}}
+
+\newcommand{\com}[2]{ {\textcolor{orange}{ #1 :}}{\textcolor{red}{ #2}}}
+\newcommand{\AM}[1]{{\color{purple}{\bf AM}:~ #1}}
+\newcommand{\AO}[1]{{\color{green}{\bf A0}:~ #1}}
+\newcommand{\SB}[1]{{\color{blue}{\bf SB}:~ #1}}
+
+
+\newcommand{\Rmax}{$R_{\rm max}$}
+\newcommand{\Vmax}{$V_{\rm max}$}
+\newcommand{\nPS}{$n_{\rm P\&S}$}
+\newcommand{\nEin}{$n_{\rm E}$}
+\newcommand{\amiga}{\texttt{AMIGA}}
+\newcommand{\ahf}{\texttt{AHF}}
+\newcommand{\mlapm}{\texttt{MLAPM}}
+\newcommand{\hMpc}{{\ifmmode{h^{-1}{\rm Mpc}}\else{$h^{-1}$Mpc}\fi}}
+\newcommand{\Mpc}{{\ifmmode{{\rm Mpc}}\else{Mpc}\fi}}
+\newcommand{\hkpc}{{\ifmmode{h^{-1}{\rm kpc}}\else{$h^{-1}$kpc}\fi}}
+\newcommand{\kpc}{{\ifmmode{ {\rm kpc} }\else{{\rm kpc}}\fi}}
+\newcommand{\kms}{{\ifmmode{ {\rm km\,s^{-1}} }\else{ ${\rm km\,s^{-1}}$ }\fi}}
+\newcommand{\hMsun}{{\ifmmode{h^{-1}{\rm {M_{\odot}}}}\else{$h^{-1}{\rm{M_{\odot}}}$}\fi}}
+\newcommand{\Msun}{{\ifmmode{{\rm M}_{\odot}}\else{${\rm M}_{\odot}$}\fi}}
+\newcommand{\Mhalo}{{\ifmmode{M_{\rm halo}}\else{$M_{\rm halo}$}\fi}}
+\newcommand{\Rvir}{{\ifmmode{R_{\rm vir}}\else{$R_{\rm vir}$}\fi}}
+\newcommand{\Mvir}{{\ifmmode{M_{\rm vir}}\else{$M_{\rm vir}$}\fi}}
+\newcommand{\Mstar}{{\ifmmode{M_{\rm star}}\else{$M_{\rm star}$}\fi}}
+\newcommand{\Vrot}{{\ifmmode{V_{\rm rot}}\else{$V_{\rm rot}$}\fi}}
+\newcommand{\ltsima}{$\; \buildrel < \over \sim \;$}
+\newcommand{\gtsima}{$\; \buildrel > \over \sim \;$}
+\newcommand{\lsim}{\lower.5ex\hbox{\ltsima}}
+\newcommand{\gsim}{\lower.5ex\hbox{\gtsima}}
+\def\nbody{$N$-body}
+\def\lesssim{\mathrel{\hbox{\rlap{\hbox{\lower4pt\hbox{$\sim$}}}\hbox{$<$}}}}
+\def\gtrsim{\mathrel{\hbox{\rlap{\hbox{\lower4pt\hbox{$\sim$}}}\hbox{$>$}}}}
+\newcommand{\new}[1]{\textbf{\textcolor{blue}{#1}}}
+%\newcommand{\problem}[1]{\textbf{\textcolor{red}{#1}}}
+\newcommand{\Sec}[1]{Section~\ref{#1}}
+\newcommand{\Eq}[1]{Eq.~(\ref{#1})}
+\newcommand{\Fig}[1]{Fig.~\ref{#1}}
+\newcommand{\beq}{\begin{equation}}
+\newcommand{\eeq}{\end{equation}}
+\def\beqa{\begin{eqnarray}}
+\def\eeqa{\end{eqnarray}}
+\def\LCDM{\ensuremath{\Lambda}CDM}
+\def\LWDM{\ensuremath{\Lambda}WDM}
+
+%%UNITS
+\def \kms {\ifmmode  \,\rm km\,s^{-1} \else $\,\rm km\,s^{-1}  $ \fi }
+\def \kpc {\ifmmode  {\rm kpc}  \else ${\rm  kpc}$ \fi  }  
+\def \hkpc {\ifmmode  {h^{-1}\rm kpc}  \else ${h^{-1}\rm kpc}$ \fi  }  
+\def \hMpc {\ifmmode  {h^{-1}\rm Mpc}  \else ${h^{-1}\rm Mpc}$ \fi  }  
+\def \Mpch {\ifmmode  {h^{-1}\rm Mpc}  \else ${h^{-1}\rm Mpc}$ \fi  }  
+\def \Msun {\ifmmode {\rm M}_{\odot} \else ${\rm M}_{\odot}$ \fi} 
+\def \hMsun {\ifmmode h^{-1}\,\rm M_{\odot} \else $h^{-1}\,\rm M_{\odot}$ \fi}
+
+%%COSMOLOGY
+\def \LCDM {\ifmmode \Lambda{\rm CDM} \else $\Lambda{\rm CDM}$ \fi}
+\def \sig8 {\ifmmode \sigma_8 \else $\sigma_8$ \fi} 
+\def \OmegaM {\ifmmode \Omega_{\rm m} \else $\Omega_{\rm m}$ \fi} 
+\def \Omegab {\ifmmode \Omega_{\rm b} \else $\Omega_{\rm b}$ \fi} 
+\def \OmegaL {\ifmmode \Omega_{\rm \Lambda} \else $\Omega_{\rm \Lambda}$\fi} 
+\def \Deltavir {\ifmmode \Delta_{\rm vir} \else $\Delta_{\rm vir}$ \fi}
+\def \rhocrit {\ifmmode \rho_{\rm crit} \else $\rho_{\rm crit}$ \fi}
+\def \rhou {\ifmmode \rho_{\rm u} \else $\rho_{\rm u}$ \fi}
+\def \zc {\ifmmode z_{\rm c} \else $z_{\rm c}$ \fi}
+
+\def\lcdm{\ensuremath{\Lambda\textrm{CDM}}\xspace}  
+\def\omegam{\ensuremath{\Omega_\textrm{m}}\xspace}
+\def\omegal{\ensuremath{\Omega_\Lambda}\xspace}
+\def\omegab{\ensuremath{\Omega_\textrm{b}}\xspace}
+\def\omegar{\ensuremath{\Omega_\textrm{r}}\xspace}
+%%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
+
+%\usepackage{tabu,booktabs}
+
+\def\aj{AJ}%
+         % Astronomical Journal
+\def\actaa{Acta Astron.}%
+         % Acta Astronomica
+\def\araa{ARA\&A}%
+         % Annual Review of Astron and Astrophys
+\def\apj{ApJ}%
+         % Astrophysical Journal
+\def\apjl{ApJ}%
+         % Astrophysical Journal, Letters
+\def\apjs{ApJS}%
+         % Astrophysical Journal, Supplement
+\def\ao{Appl.~Opt.}%
+         % Applied Optics
+\def\apss{Ap\&SS}%
+         % Astrophysics and Space Science
+\def\aap{A\&A}%
+         % Astronomy and Astrophysics
+\def\aapr{A\&A~Rev.}%
+         % Astronomy and Astrophysics Reviews
+\def\aaps{A\&AS}%
+         % Astronomy and Astrophysics, Supplement
+\def\azh{AZh}%
+         % Astronomicheskii Zhurnal
+\def\baas{BAAS}%
+         % Bulletin of the AAS
+\def\bac{Bull. astr. Inst. Czechosl.}%
+         % Bulletin of the Astronomical Institutes of Czechoslovakia
+\def\caa{Chinese Astron. Astrophys.}%
+         % Chinese Astronomy and Astrophysics
+\def\cjaa{Chinese J. Astron. Astrophys.}%
+         % Chinese Journal of Astronomy and Astrophysics
+\def\icarus{Icarus}%
+         % Icarus
+\def\jcap{J. Cosmology Astropart. Phys.}%
+         % Journal of Cosmology and Astroparticle Physics
+\def\jrasc{JRASC}%
+         % Journal of the RAS of Canada
+\def\mnras{MNRAS}%
+         % Monthly Notices of the RAS
+\def\memras{MmRAS}%
+         % Memoirs of the RAS
+\def\na{New A}%
+         % New Astronomy
+\def\nar{New A Rev.}%
+         % New Astronomy Review
+\def\pasa{PASA}%
+         % Publications of the Astron. Soc. of Australia
+\def\pra{Phys.~Rev.~A}%
+         % Physical Review A: General Physics
+\def\prb{Phys.~Rev.~B}%
+         % Physical Review B: Solid State
+\def\prc{Phys.~Rev.~C}%
+         % Physical Review C
+\def\prd{Phys.~Rev.~D}%
+         % Physical Review D
+\def\pre{Phys.~Rev.~E}%
+         % Physical Review E
+\def\prl{Phys.~Rev.~Lett.}%
+         % Physical Review Letters
+\def\pasp{PASP}%
+         % Publications of the ASP
+\def\pasj{PASJ}%
+         % Publications of the ASJ
+\def\qjras{QJRAS}%
+         % Quarterly Journal of the RAS
+\def\rmxaa{Rev. Mexicana Astron. Astrofis.}%
+         % Revista Mexicana de Astronomia y Astrofisica
+\def\skytel{S\&T}%
+         % Sky and Telescope
+\def\solphys{Sol.~Phys.}%
+         % Solar Physics
+\def\sovast{Soviet~Ast.}%
+         % Soviet Astronomy
+\def\ssr{Space~Sci.~Rev.}%
+         % Space Science Reviews
+\def\zap{ZAp}%
+         % Zeitschrift fuer Astrophysik
+\def\nat{Nature}%
+         % Nature
+\def\iaucirc{IAU~Circ.}%
+         % IAU Cirulars
+\def\aplett{Astrophys.~Lett.}%
+         % Astrophysics Letters
+\def\apspr{Astrophys.~Space~Phys.~Res.}%
+         % Astrophysics Space Physics Research
+\def\bain{Bull.~Astron.~Inst.~Netherlands}%
+         % Bulletin Astronomical Institute of the Netherlands
+\def\fcp{Fund.~Cosmic~Phys.}%
+         % Fundamental Cosmic Physics
+\def\gca{Geochim.~Cosmochim.~Acta}%
+         % Geochimica Cosmochimica Acta
+\def\grl{Geophys.~Res.~Lett.}%
+         % Geophysics Research Letters
+\def\jcp{J.~Chem.~Phys.}%
+         % Journal of Chemical Physics
+\def\jgr{J.~Geophys.~Res.}%
+         % Journal of Geophysics Research
+\def\jqsrt{J.~Quant.~Spec.~Radiat.~Transf.}%
+         % Journal of Quantitiative Spectroscopy and Radiative Trasfer
+\def\memsai{Mem.~Soc.~Astron.~Italiana}%
+         % Mem. Societa Astronomica Italiana
+\def\nphysa{Nucl.~Phys.~A}%
+         % Nuclear Physics A
+\def\physrep{Phys.~Rep.}%
+         % Physics Reports
+\def\physscr{Phys.~Scr}%
+         % Physica Scripta
+\def\planss{Planet.~Space~Sci.}%
+         % Planetary Space Science
+\def\procspie{Proc.~SPIE}%
+         % Proceedings of the SPIE
+
+%\newcommand\lcdm{\ifluatex \char"039B CDM\else\ifxetex\char"039B CDM \else%
+%    \ensuremath{$\Lambda$\textrm{CDM}}\fi\xspace}
+
+\def\head{ .ps \vbox to 0pt{\vss \hbox to 0pt{\hskip 440pt\rm
+      LA-UR-10-07069\hss} \vskip 25pt}} 
+
+\def \spose#1{\hbox  to 0pt{#1\hss}}  
+\def \lta{\mathrel{\spose{\lower 3pt\hbox{$\sim$}}\raise 2.0pt\hbox{$<$}}}
+\def \gta{\mathrel{\spose{\lower 3pt\hbox{$\sim$}}\raise 2.0pt\hbox{$>$}}}
+
+\def\lcdm{\ensuremath{\Lambda\textrm{CDM}}\xspace}
+    
+\def\omegam{\ensuremath{\Omega_\textrm{m}}\xspace}
+\def\omegal{\ensuremath{\Omega_\Lambda}\xspace}
+\def\omegab{\ensuremath{\Omega_\textrm{b}}\xspace}
+\def\omegar{\ensuremath{\Omega_\textrm{r}}\xspace}
+
+\begin{document} 
+
+   \title{Exploring locally varying star formation efficiencies in galaxy scale simulations}
+   \titlerunning{Star formation models for galaxy simulations}
+
+   %\subtitle{I. Subtitle}
+
+    \author{}
+   %\author{Eva Franck
+   %       \inst{1,2},
+   %       Tobias Buck\inst{1,2}
+   %       \and
+   %       Aura Obreja\inst{1,2}
+   %       }
+
+   \institute{Interdisciplinary Center for Scientific Computing (IWR), University of Heidelberg,
+ Im Neuenheimer Feld 205, D-69120 Heidelberg
+ \and
+ Universität Heidelberg, Zentrum für Astronomie, Institut für Theoretische Astrophysik, Albert-Ueberle-Straße 2, D-69120 Heidelberg, Germany\\
+\email{eva.franck@stud.uni-heidelberg.de}\\
+\email{tobias.buck@iwr.uni-heidelberg.de}
+}
+             
+
+   \date{Received ------ --, 2024; accepted --- --, 2024}
+
+% \abstract{}{}{}{}{} 
+% 5 {} token are mandatory
+ \abstract
+  % context heading (optional)
+  % {} leave it empty if necessary  
+   {...}
+  % aims heading (mandatory)
+   {...}
+  % methods heading (mandatory)
+   {...}
+  % results heading (mandatory)
+   {...}
+  % conclusions heading (optional), leave it empty if necessary 
+   {...}
+
+   \keywords{Galaxies: structure --
+            Galaxies: fundamental parameters --
+            Galaxies: stellar content --
+             Methods: data analysis --
+             Methods: statistical --
+             Techniques: image processing
+             }
+
+\maketitle
+%
+%-------------------------------------------------------------------
+
 \section{Introduction}
-\label{sec:intro}
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-Ut purus elit, vestibulum ut, placerat ac, adipiscing vitae, felis.
-Curabitur dictum gravida mauris, consectetuer id, vulputate a, magna.
-Donec vehicula augue eu neque, morbi tristique senectus et netus et.
-Mauris ut leo, cras viverra metus rhoncus sem, nulla et lectus vestibulum.
-Phasellus eu tellus sit amet tortor gravida placerat.
-Integer sapien est, iaculis in, pretium quis, viverra ac, nunc.
-Praesent eget sem vel leo ultrices bibendum.
-Aenean faucibus, morbi dolor nulla, malesuada eu, pulvinar at, mollis ac.
-Curabitur auctor semper nulla donec varius orci eget risus.
-Duis nibh mi, congue eu, accumsan eleifend, sagittis quis, diam.
-Duis eget orci sit amet orci dignissim rutrum.
+Modeling star formation accurately remains a fundamental challenge in simulations of galaxy formation. Despite significant advancements, current cosmological and galaxy-scale simulations still struggle to resolve the intricate spatial and density scales at which star formation processes unfold. Consequently, simplistic "recipes" are often employed, such as the implementation of local Schmidt laws, where the rate of gas-to-star conversion $\dot{\rho}_{\ast}$ is dictated by a power-law dependence on density $\rho$, e.g. $\dot{\rho}_{\ast}= \epsilon_{\rm sf}\rho/t_{\rm sf} \propto \rho^{1.5}$ where $\epsilon_{\rm sf}$ is an efficiency at which gas is converted into stars over the time scale $t_{\rm sf}$ \citep[e.g.][]{Schmidt_1959}.
 
-Nam dui ligula, fringilla a, euismod sodales, sollici- tudin vel, wisi.
-Morbi auctor lorem non justo, nam lacus libero, pretium at, lobortis vitae.
-Donec aliquet, tortor sed accumsan bibendum, erat ligula aliquet magna.
-Morbi ac orci et nisl hendrerit mollis, suspendisse ut massa, cras nec ante.
-Pellentesque a nulla cum sociis natoque penatibus et magnis dis parturient.
-Aliquam tincidunt urna, nulla ullamcorper vestibulum turpis.
-Pellentesque cursus luctus mauris \citep{Luger2021}.
+While this is a very famous approach for galaxy formation simulations, there is two severe difficulties with this: (i) the exact value of $\epsilon_{\rm sf}$ is usually subject to ad-hoc choices and (ii) defining accurate criteria for localising star forming regions.
 
-\bibliography{bib}
+Choosing inaccurate localisation criteria can lead to an artificial dispersion of star formation activity across the simulation volume, including regions of cosmologically pristine gas at elevated temperatures. To address this, additional criteria or constraints are necessary. Commonly, simulations impose density thresholds, typically around \( n \gtrsim 0.1\, \text{cm}^{-3} \), as a proxy for star-forming regions \citep[e.g.][]{Stinson_2006}. While not directly indicative of star formation, these thresholds roughly correspond to densities where thermal instability sets in, allowing for some fraction of the material to collapse and form stars. Another approach is taken by the famous \cite{Springel_2003} model which models star formation and feedback in multi-phase gas via an effective equation of state.
+
+Various other criteria, such as temperature thresholds, Jeans instability, convergent flows, or short cooling times, are also considered \citep[see e.g.][for a comparison of such criteria]{Hopkins_2013}. Furthermore, recent studies have explored molecular criteria, utilizing density and metallicity thresholds to estimate sub-grid molecular gas fractions and confining star formation to molecular gas regions \citep[e.g.][]{Robertson2008,Kuhlen2012,Christensen2012}.
+
+These criteria are crucial for capturing the observed highly clustered nature of star formation \citep[e.g.][]{Lada2003,Dutton2019,Dutton2020,Buck_2019}. Failure to do so not only misplaces star formation but also hampers the effects of stellar feedback, essential for shaping galaxy evolution. Furthermore, without stringent minimum star formation criteria, simulations risk altering the gas's ability to form realistic structures \citep[e.g.][]{Saitoh2008} and regulate its baryonic content \citep[e.g.][]{Governato2010} and form realistic discs \citep{Stinson2013}.
+
+Despite their importance, the interpretation of these criteria often hinges on the resolved dynamic range of the simulation and the mean properties of the galaxies being modeled. Thus, numerical adjustments are frequently necessary to achieve comparable results.
+
+Similarly, $\epsilon_{\rm sf}$ is typically chosen to reproduce the observed relation between gas surface density and star formation rate \citep{Schmidt_1959,Schmidt1963,Kennicutt1998,Bigiel2008,Kennicutt2012}. Regardless of the exact numerical value of $\epsilon_{\rm sf}$, almost all galaxy formation simulations assume this value to be universal in space and time.
+
+However, there is a growing number of observations that indicate a variable $\epsilon_{\rm sf}$ in star-forming giant molecular clouds (GMCs) ranging between $\sim0.1\% to \sim30\%$ \citep{Heiderman_2010,Lada2010,Murray2011,Evans2014,Evans_2022,Utomo2018,Lee2016}.
+
+Super-sonic turbulence within the interstellar medium (ISM) suggests a locally varying star formation efficiency \citep[e.g.][]{Krumholz2005,Padoan2011,Padoan_2012,Federrath2012,Evans_2022}.
+Taking these mechanisms into account one can derive a scaling of $\epsilon_{\rm sf}$ with the gas virial parameter, $\alpha_{\rm vir}$. Recently, \cite{Semenov_2016} have tested the impact of such a model on galaxy formation and being able to show varying star formation efficiencies in broad agreement with observations.  
+
+In this paper, we explore the impact of a varying star formation efficiency that is coupled to the local dynamical state of the gas. Specifically, we compare the multi-freefall model by \cite{Federrath2012} and the virial parameter based model by \cite{Padoan_2012} against our fiducial density threshold based model. We examine its implications for the gas phase structure and the spatial and density distributions of star formation across the galaxy environment.
+
+%--------------------------------------------------------------------
+\section{Numerical Model}
+\label{sec:sims}
+%\subsection{Two Point Correlation Function}
+%--------------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%% TABLE 4 %%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table*}
+\begin{center}
+\caption{\textcolor{red}{to be changed}Simulation properties of the main galaxies: \normalfont{We state the total stellar mass, $M_{\rm star}$ and the total amount of gas, $M_{\rm gas}$, within the virial radius. We further report the projected stellar half light radius, $R_{\rm half}$, the total metallicity, $Z/Z_{\odot}$, iron abundance [Fe/H] and gas phase oxygen abundance measured within $2R_{\rm half}$. The last column presents the stellar, gas and dark matter mass resolution. We separate the table into two parts. The upper part presents the different model galaxies at fixed fiducial yield set and the lower part presents the two galaxies rerun with different yield sets.}}
+\label{tab:sims}
+%\scriptsize
+\begin{tabular}{l c c c c c c c c c c c}
+		\hline\hline
+		simulation & yield set & $M_{\rm star}$ & $M_{\rm gas}$ & $R_{\rm half}$ & $\log(Z/Z_{\odot})$ & [Fe/H] & $12 + \log(\rm{O/H})$ & $m_{\rm star}/m_{\rm gas}/m_{\rm dark}$ \\
+		  & & [$10^{10}\Msun$] & [$10^{10}\Msun$] & [kpc] &  &  &  & [$10^5\Msun$] \\
+		\hline
+		& & & & galaxy models & & & & & \\
+		\hline
+		g2.79e12 & new fid & 18.23 & 21.70 & 2.81 & -1.62 & 0.17 & 9.24 & 1.06/3.18/17.35  \\
+		g8.26e11 & new fid & 4.00 & 8.00 & 2.93 & -1.74 & -0.06 & 9.01 & 1.06/3.18/17.35  \\
+		g7.55e11 & new fid & 3.75 & 6.81 & 2.71 & -1.77 & -0.09 & 8.97 & 1.06/3.18/17.35  \\
+		g2.19e11 & new fid & 0.08 & 0.92 & 2.78 & -2.72 & -1.05 & 8.02 & 0.13/0.39/2.17  \\
+		g1.57e11 & new fid & 0.10 & 1.00 & 4.67 & -2.78 & -1.12 & 8.06 & 0.13/0.39/2.17  \\
+		g4.99e10 & new fid & 0.01 & 0.19 & 2.93 & -3.18 & -1.51 & 7.53 & 0.04/0.11/0.64  \\
+		g2.83e10 & new fid & 0.003 & 0.10 & 1.77 & -3.39 & -1.75 & 7.35 & 0.04/0.11/0.64  \\
+		g7.05e09 & new fid & 0.0002 & 0.01 & 0.45 & -3.51 & -1.85 & 7.29 & 0.01/0.03/0.19  \\
+		\hline
+		& & & & model variations  & & & & & & & \\
+		\hline
+		g8.26e11 & alt & 4.10 & 7.51 & 2.67 & -1.80 & -0.14 & 8.99 & 1.06/3.18/17.35 \\
+		g8.26e11 & alt2 & 3.52 & 7.69 & 2.61 & -1.95 & -0.17 & 8.74 & 1.06/3.18/17.35  \\
+		g8.26e11 & alt3 & 4.22 & 7.80 & 2.69 & -1.74 & -0.13 & 9.04 & 1.06/3.18/17.35  \\
+		g8.26e11 & alt4 & 3.91 & 7.65 & 2.68 & -1.81 & -0.17 & 9.04 & 1.06/3.18/17.35 \\
+		g8.26e11 & steepIMF & 4.29 & 7.93 & 2.47 & -2.01 & -0.22 & 8.61 & 1.06/3.18/17.35 \\
+		g8.26e11 & longDelay & 4.19 & 7.62 & 2.68 & -1.73 & -0.11 & 9.05 & 1.06/3.18/17.35\\
+		g8.26e11 & highNorm & 4.29 & 7.71 & 2.64 & -1.71 & 0.03 & 9.06 & 1.06/3.18/17.35\\
+		g2.83e10 & alt & 0.004 & 0.12 & 1.76 & -3.34 & -1.79 & 7.47 & 0.04/0.11/0.64  \\
+		g2.83e10 & alt2 & 0.003 & 0.14 & 1.63 & -3.57 & -1.81 & 7.02 & 0.04/0.11/0.64  \\ % in sim folder called alt3
+		g2.83e10 & alt3 & 0.003 & 0.13 & 2.18 & -3.27 & -1.74 & 7.52 & 0.04/0.11/0.64 \\ % in sim folder called alt4
+		g2.83e10 & alt4 & 0.003 & 0.12 & 1.99 & -3.49 & -1.85 & 7.45 & 0.04/0.11/0.64  \\ % in sim folder called alt
+		g2.83e10 & longDelay & 0.003 & 0.10 & 2.04 & -3.35 & -1.77 & 7.34 & 0.04/0.11/0.64 \\
+		g2.83e10 & highNorm & 0.003 & 0.11 & 1.75 & -3.33 & -1.64 & 7.35 & 0.04/0.11/0.64 \\
+		g2.83e10 & steepIMF & 0.006 & 0.09 & 1.67 & -3.35 & -1.59 & 7.24 & 0.04/0.11/0.64  \\
+		g2.83e10 & low fb & 0.005 & 0.16 & 2.02 & -3.19 & -1.56 & 7.51 & 0.04/0.11/0.64 \\
+        \hline
+\end{tabular}
+\end{center}
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In order to study the impact of a variable star formation efficiency on galaxy evolution we perform several numerical experiments with different star formation prescriptions implemented in the smoothed particle hydrodynamics (SPH) code \texttt{Gasoline2} \citep{Wadsley2017}. For this study we perform a total of ?? simulations of a disk galaxy forming in a $\sim10^{12}\Msun$ dark matter halo. 
+
+\subsection{Smoothed Particle Hydrodynamics with \texttt{Gasoline2}}
+\label{sec:numerics}
+
+We perform our simulations with the hydrodynamics solver \G\ \citep{Wadsley2017} which employs a modern formulation of the smooth particle hydrodynamics method which improves multi-phase mixing and removes spurious numerical surface tension. The simulations employ the Wendland C2 smoothing kernel \citep{Dehnen2012} with a number of 50 neighbour particles for the calculation of the smoothed hydrodynamic properties. The treatment of artificial viscosity uses the signal velocity as described in \cite{Price2008} and a timestep limiter as  described in \cite{Saitoh2009} has been implemented such that cool particles behave correctly when hit by a hot blastwave. All simulations employ a pressure floor following \citet{Agertz2009} to keep the Jeans mass of the gas resolved by at least $4$ SPH kernel masses to suppress artificial fragmentation. This is equivalent to the criteria proposed in \citet{Richings2016} and fulfils the \citet{Truelove1997} criterion at all times. Finally, we adopted a turbulent metal diffusion algorithm between SPH particles as described in \cite{Wadsley2008} and extensively discussed in section 2.2  of \citet{Shen2010}.  
+This model estimates a particle's diffusion coefficient as $d = C_{\rm turb}\vert S_{ij}\vert h^2$, where $S_{ij}$ denotes the trace-free local velocity shear tensor defined as 
+\begin{align}
+\tilde{S}_{ij}|_p &= \frac{1}{\rho_p}\sum_q m_q (v_j|_q-v_j|_p)
+\nabla_{p,i} W_{pq}, \nonumber \\ 
+S_{ij}|_p &= \frac{1}{2}(\tilde{S}_{ij}|_p+\tilde{S}_{ji}|_p) - \delta_{ij} \frac{1}{3}\ {\rm Trace}\ \tilde{S}|_p.
+\label{eq:diff}
+\end{align}
+The sums extend over all SPH neighbours, $q$, $\delta_{ij}$ denotes the Kronecker delta, $\rho_q$ the density, $\mathbf{r}_{pq}$ the vector separation between particles $p$ and $q$, $W$ is the SPH kernel function, $v_i|_q$ is the particle velocity component in direction $i$ and $\nabla_p$ is the gradient operator for particle $p$ (operating on the SPH kernel function) while $\nabla_{p,i}$ is the {\it i}th component of the resultant vector. This choice for $S_{ij}$ results in no diffusion for compressive or purely rotating flows. 
+With Eq. \ref{eq:diff} the diffusion expression for a scalar variable $A_p$ of particle $p$ can be computed as follows:
+\begin{align}
+D_p &= C\ |S_{ij}|_p|\ h_p^2,\nonumber \\
+\frac{dA_p}{dt} &= -\sum_q m_q \frac{(D_p+D_q)(A_p-A_q)(\mathbfit{r}_{pq}\cdot\nabla_p W_{pq})}{\frac{1}{2}(\rho_p+\rho_q)\,\mathbfit{r}_{pq}^2},
+\end{align}
+Finally, the coefficient $C_{\rm turb}$ is set to 0.05 \citep{Wadsley2008,Shen2010}.
+
+Gas cooling in the temperature range from 10 to $10^9$K is implemented via hydrogen, helium, and various metal-lines using pre-calculated \texttt{cloudy} \citep[version 07.02;][]{Ferland1998} tables \citep{Shen2010,Obreja2019}. Heating from cosmic reionization is implemented via a meta-galactic UV background \citep{Haardt2012}. 
+
+\subsection{Star formation models}
+\label{sec:SF}
+
+\begin{table*}
+\caption[]{Star formation models tested.}
+         \label{tab:models}
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{ccc}
+\hline
+Model & Virial Parameter & Star formation efficiency \\
+\hline
+Threshold-based SF model & - & 10\% for $n_{\rm gas}$ < 10$cm^{-3}$  \\
+Padoan et al. (2012) & - & $\epsilon_{\mathrm{ff}}=\epsilon_{\rm{cs}} \, \mathrm{exp}\left(-1.6 \, \frac{t_{\mathrm{ff}}}{t_{\mathrm{cr}}}\right)$ \\
+%Semenov et al. (2016) & - & $\epsilon_{\mathrm{ff}}=0.9 \, \mathrm{exp}\left(-1.6 \, \frac{t_{\mathrm{ff}}}{t_{\mathrm{cr}}}\right)$  \\
+%Evans et al. (2022) & $ \alpha = \frac{5 \sigma_{\rm 3d}^{2} R}{3\mathrm{G M}}$ & $\epsilon_{\mathrm{ff}}=0.3  \, \mathrm{exp}\left(-2.02\, \alpha_{\rm Evans}^{1/2}\right)$  \\
+Hopkins et al. (2013) & $ \alpha= \frac{\beta}{2} \frac{\left\vert\nabla \cdot \textbf v \right\vert^2+\left\vert\nabla \times \textbf v \right\vert^2}{G\rho} $ & $\epsilon$ = 100\% for $\alpha_{\rm Hopkins} < 1$, otherwise 0\%\\
+Federrath \& Klessen (2012) & - & $\epsilon_{\mathrm{ff}} = \frac{\epsilon}{2\phi_t}
+\exp\left(\frac{3}{8} \sigma_s^2 \right)
+\left[
+ 1 + \mathrm{erf}\left( \frac{\sigma_s^2 - s_{\mathrm{crit}}}{\sqrt{2\sigma_s^2}}\right)\right]
+$  \\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+
+The goal of locally variable star formation efficiencies is to address the discrepancy between the predicted and observed SFRs by taking into account the effects of self-gravitating magnetohydrodynamics (MHD) turbulence, which is confirmed to be more significant than previously believed \citep{Sun_2020, Evans_2021}. 
+In general, the local SFR per free-fall time $t_{\mathrm{ff}}$ is calculated from the amount of gas $M_{\mathrm{gas}}$ that gets converted into stars multiplied by the SFE $\epsilon_{\mathrm{ff}}$:
+\begin{align}
+\label{eq:SFR}
+    \rm{SFR}_{\mathrm{ff}} = \frac{M_{\mathrm{mol, tot}} \, \cdot \, \epsilon_{\mathrm{ff}}}{t_{\mathrm{ff}}}
+\end{align}
+The free-fall time $t_{\mathrm{ff}} = \sqrt{3 \pi/32 G \rho}$
+describes the timescale on which a GMC with initial average density $\rho$ will collapse under its own gravity.
+
+The SFE is commonly assumed to be a fixed value. However, as mentioned above, recent simulations show a strong correlation of the SFE and the relative importance of turbulence with respect to gravity in a GMC \citep[e.g.][]{Padoan_2012, Kim_2021}, which is parametrized by the virial parameter $\alpha_{\rm vir}$. We compare three models that are based on this correlation: the model of \cite{Padoan_2012}, \cite{Hopkins_2013} and the multi-freefall model of \cite{Federrath_2014}. All three models use different approaches to calculate $\alpha$ and $\epsilon$, which we briefly introduce below.
+
+The virial parameter $\alpha_{\rm vir}$ is defined as the ratio of the kinetic energy of the particles to the gravitational potential energy of the system and $\alpha_{\rm vir}$ can be expressed as
+\begin{equation}\label{eq:alpha1}
+\alpha_{\rm vir} = \frac{5 \sigma^2 R}{\mathrm{G M}}
+\end{equation}
+where $\sigma$ is the one-dimensional velocity dispersion of the particles, R the size of the system, M the total mass of the system and G the gravitational constant \citep[e.g.][]{Evans_2022, McKee_1992}. For the size and total mass of the system the observed cloud's effective radius and mass are used. Hereby magnetic and surface terms, internal homogeneity and stratification are neglected, which could lead to a factor of roughly 2 \citep{Evans_2022}.
+%Using the three-dimensional velocity dispersion we get a factor three:
+%\begin{align}
+%    \alpha_{\mathrm{vir}}= \frac{5\sigma_{3d}^2 R}{3GM}
+%\end{align}
+If the gravitational potential energy is balanced by its kinetic energy, $\alpha_{\rm vir}$ is found to be less than 1 which results from the virial theorem: $2 \langle T \rangle= -\langle V \rangle$. For $\alpha_{\rm vir}<1$ the gas in a molecular cloud is in gravitationally bound structures and will likely collapse to form new stars. If $\alpha_{\rm vir} > 1$, the system is unbound and will expand or disperse. However, assuming that the SFE is a step function, which is either 0 or 1 based on whether the virial parameter is above or below 1 is too simplistic and leads to inaccurate results. A more accurate approach, that is consistent with theory and simulation results, is to find a relationship between the SFE and the virial parameter. 
+
+In spherical clouds, the ratio of the free-fall time to the dynamical time can be linked to the virial parameter \citep[e.g.][]{Evans_2022}:
+\begin{align}
+    \frac{t_{\mathrm{ff}}}{t_{\mathrm{dyn}}} = \pi \left(\frac{\alpha_{\mathrm{vir}}}{40}\right)^{\frac{1}{2}}.
+\end{align}
+In self-gravitating driven-turbulence simulations, the dynamical time
+\begin{align}
+t_{\mathrm{dyn}} = \frac{ r } {\sigma} = \frac{ \Delta } {2 \sigma}
+\end{align}
+is equivalent to the initial turbulent crossing time $t_{\mathrm{cr}}$. This time scale represents the rate at which a structure will change due to internal dynamics on the scale of GMCs, and is in simulations determined by the cell size $\Delta$ and the one-dimensional velocity dispersion. For environments with low Mach numbers, which are defined as the ratio of the flow velocity of a fluid and the local speed of sound $c_s$, it is crucial to account for thermal pressure support \citep{Chandrasekhar_1951}. Then $t_{\mathrm{cr}}$ is rewritten as:
+\begin{align}
+t_{\mathrm{cr}} = \frac{ \Delta } { 2 \sqrt{\sigma^2+c_s^2}}.
+\end{align} 
+Thus, $\alpha_{\rm vir}$ can be parametrized by the ratio of free-fall time and crossing time in the following way \citep{Bertoldi_1992}:
+\begin{align}
+\label{eq: alpha_sem}
+    \alpha_{\mathrm{vir}} \approx 1.35 \left(\frac{t_{\mathrm{ff}}}{t_{\mathrm{cr}}}\right)^2
+\end{align}
+
+\subsubsection{Threshold based star formation}
+
+Our fiducial model for star formation is a density threshold based star formation following \citet{Stinson2006} in which dense ($n_{\rm  th}  > 50 m_{\rm  gas}/\epsilon_{\rm gas}^3 = 10.3$cm$^{-3}$ and cold (T $< 15,000$K) gas is eligible to form stars, where $m_{\rm gas}$ denotes the gas particle mass, $\epsilon_{\rm gas}$ the gas gravitational softening and the value of 50 refers to the number of neighbouring particles). A systematic study of the impact of the star formation threshold density on the galaxy properties has recently been conducted by \citet{Dutton2019,Dutton2020} where only simulations with a high ($n>10$ cm$^{-3}$) threshold density reproduce the observed spatial clustering of young star clusters \citep{Buck2019}. 
+
+The gas fulfilling the above requirements will be stochastically converted into star particles according to:
+$\frac{\Delta  m_{\rm star}}{\Delta t}=\epsilon_{\rm ff}\frac{m_{\rm  gas}}{t_{\rm dyn}}$, where  $\Delta m_{\rm star}$  is the mass of the star particle formed, $m_{\rm  gas}$ the gas particle mass, $\Delta  t$ the timestep between star formation events (here: $8 \times 10^5$  yr) and $t_{\rm dyn}$ is the gas particles dynamical time. In the fiducial model $\epsilon_{\rm ff}$ is set to $0.1$ which reproduces the \citet{Kennicutt1998} Schmidt relation \citep{Stinson2006}. The initial stellar particle mass at birth is fixed to one third of the initial gas mass and successive mass loss is implemented as described in \citet{Buck2021}.
+
+\subsubsection{Padoan et al. (2012)}
+
+\cite{Padoan_2012} discovered a strong correlation between the virial parameter written as the ratio of free-fall over crossing time and the star formation efficiency:
+\begin{equation}\label{eff_pad}
+    \epsilon_{\mathrm{ff}}=\epsilon_w \mathrm{exp}\left(-1.6 \frac{t_{\mathrm{ff}}}{t_{\mathrm{cr}}}\right)
+\end{equation}
+The normalization coefficient $\epsilon_w$ accounts for the mass loss that occurs because of the material that is expelled during the SF from protostellar objects modeled by sink particles. These outflows can consist of both gas and dust and can be expelled as jets or winds, affecting the surrounding interstellar medium. While \cite{Padoan_2012} uses $\epsilon_w$ = 0.5, \cite{Semenov_2016} adopt the factor $\epsilon_w$ = 0.9 which is in agreement with the results of \cite{Federrath_2014}.
+
+\cite{Padoan_2012} found that the equation for SFE above produces results in the range \\ $\epsilon_{\mathrm{ff}} \approx 0.5 - 50\%$ that match the observed variation of SFE $\epsilon_{\mathrm{ff}} \approx 0.1\%$ to 30$\%$ well \citep{Heiderman_2010}. \cite{Semenov_2016} confirmed that the model predicts even lower SFE which vary between $\epsilon_{\rm ff} < 0.1\%$ and 10$\%$. Additionally, they affirmed a natural physical threshold density at $n = 10 \, \, \mathrm{cm}^{-3}$ where SF becomes possible that varies with the metallicity. This threshold is dominated by the point at which the turbulent pressure in the area is overtaken by the thermal pressure of the warm, diffuse gas.
+
+Note, a slight variant of the above formula is proposed in \cite{Evans_2022}, which explores the effects of adjusting cloud properties on the predicted SFR based on the known gradient in metallicity in the Milky Way. The relation proposed in \cite{Padoan_2012} is rewritten as follows: $\epsilon_{\mathrm{ff, cc}}=\mathrm{exp}\left(-b\alpha_{vir}^{1/2}\right)$.
+This expresses a cloud-to-core efficiency  $\epsilon_{\mathrm{cc}}$ per free-fall time, which refers to the fraction of the total mass of a molecular cloud that forms into dense cores. The core-to-star efficiency  $\epsilon_{\mathrm{cs}}$, on the other hand, pertains to the fraction of cores that will form a star. In other words,  $\epsilon_{\mathrm{cc}}$ deals with how much mass within a molecular cloud is available to form cores, while $\epsilon_{\mathrm{cs}}$ deals with how much of that core mass is used to actually form stars. By applying $\epsilon_{\mathrm{cs}}$ we get the free-fall efficiency: 
+$\epsilon_{\mathrm{ff}} = \epsilon_{\mathrm{cs}} \epsilon_{\mathrm{ff, cc}}$.
+\cite{Evans_2022} set the core-to-star-efficiency $\epsilon_{\mathrm{cs}}$ = 0.3 and determine the fit parameter b from simulations that resolve cloud-to-core scales as b = 2.02 based on the results of \cite{Kim_2021}.
+    
+\subsubsection{Hopkins et al. (2013)}
+
+\cite{Hopkins_2013} consider various factors for identification of star forming regions. One of them is the self-gravity criterion which is based on an effective velocity dispersion calculated by the velocity divergence and curl accounting for local radial and tangential velocity dispersion, inflow and outflow motions, as well as internal rotation and shear. 
+The requirement for self-gravity on a scale $\delta r$ is here given by:
+\begin{align}
+    \sigma_{\mathrm{eff}}^2+c_s^2 < \beta G M / \delta r.
+\end{align}
+$\sigma_{\mathrm{eff}}$ accounts for rotational and random motions and the curl for rotational and tangential dispersion. The divergence results from the local radial velocity dispersion and inflow as well as outflow motions. The expression is scaled by a factor $\beta$, accounting for the internal structure on the scale $\delta r$, in which all the prefactors are taken into account in the subsequent transformations.
+An effective velocity dispersion is introduced which is derived from the stress tensor in diagonal form:
+\begin{align}
+    \sigma_{i j}^{\prime}=a_{i k} a_{j l} \sigma_{k l}=\sigma_{(j)} \delta_{i j}=\left[\begin{array}{ccc}
+\sigma_1 & 0 & 0 \\
+0 & \sigma_2 & 0 \\
+0 & 0 & \sigma_3
+\end{array}\right]
+\end{align}
+The anti-symmetric part can be expressed as the vorticity and depicts the rotational shear stress on an object:
+\begin{align}
+&\xi_{i j}=-\frac{1}{2} \varepsilon_{i j k} \omega_k=-\frac{1}{2}\left[\frac{\partial v_j}{\partial x_i}-\frac{\partial v_i}{\partial x_j}\right]=-\frac{1}{2} \varepsilon_{i j k} (\nabla \times \textbf{v})_k
+\end{align}
+The symmetric part of the stress tensor expresses the rate of strain tensor, which is a mathematical representation of the rate at which fluid particles are deforming or stretching. It is used to quantify the rate of change of the velocity field in a fluid flow:
+\begin{align}
+e_{i j}=\left(e_{(i)} \delta_{i j}-\left[\frac{1}{3} \nabla \cdot \textbf{v}\right] \delta_{i j}\right)+\frac{1}{3}\nabla \cdot \textbf{v} \delta_{i j} 
+\end{align}
+The first bracket denotes the translation, which is a strain without any change in volume, while the second term expresses the strain along the principal axes, i.e. a pure volume change (Figure \ref{im: deformation}). This strain is neglected in the \cite{Hopkins_2013} formula, which only accounts for the translational (divergence) and the rotational (curl) contribution to the virial parameter. 
+
+In this way we obtain the effective velocity dispersion:
+\begin{align} \label{vdisp_eff}
+    \sigma_{\mathrm{eff}}^2 = \beta (\left\vert\nabla \cdot \textbf{v} \right\vert^2+\left\vert\nabla \times \textbf{v} \right\vert^2) \delta r^2
+\end{align}
+With formula (\ref{alpha1}), where R = $\delta r$ and M = M(<$\delta r) = (4\pi/3)\rho \delta r^3$, we get the following expression for the virial parameter:
+\begin{align}
+\label{eq: alpha_hop}
+    \alpha= \frac{\beta}{2} \frac{\left\vert\nabla \cdot \textbf v \right\vert^2+\left\vert\nabla \times \textbf v \right\vert^2}{G\rho} \quad < 1
+\end{align}
+According to \cite{Hopkins_2013} the factor $\beta$ accounts for the internal mass profile and the velocity structure and is assumed to be of order-unity $\approx 1/2$. However, there is no further explanation nor derivation.
+\cite{Hopkins_2013} state that SF can occur in those environments where $\alpha$ < 1 and thus the self-gravity criterion is fulfilled. These regions are assumed to collapse in a single free-fall time, so that the SFE is set to 1, which means 100$\%$ of the gas with $\alpha$ < 1 is converted to stars.
+
+\subsubsection{Federrath \& Klessen (2012)}
+
+We also adopt a thermo-turbulent approach for SF based on the multi-freefall model of \cite{Federrath2012} similar to the models employed by \citet{Kimm2017,Trebitsch2017,Trebitsch2018,Kretschmer2020}. The \citet{Federrath2012} model is based on the assumption that a log-normal distribution yields a good description of the probability distribution function (PDF) for the gas density of a star-forming cloud. From this, $\epsilon_{\mathrm{ff}}$ can be estimated by integrating the cloud PDF (weighted by a freefall time factor) from a threshold density $\rho_{\mathrm{crit}}$ up to infinity which results in
+\begin{equation}\label{eq:efficiency}
+\epsilon_{\mathrm{ff}} = \frac{\epsilon}{2\phi_t}
+\exp\left(\frac{3}{8} \sigma_s^2 \right)
+\left[
+ 1 + \mathrm{erf}\left( \frac{\sigma_s^2 - s_{\mathrm{crit}}}{\sqrt{2\sigma_s^2}}\right)\right].
+\end{equation}
+Which depends on the logarithmic density contrast $s = \ln (\rho/\rho_0)$, with the mean gas density $\rho_0$, and the variance of $s$ given by $\sigma_s^2 = ln(1+b^2\mathcal{M}^2)$, where $\mathcal{M}$ is the Mach number. We use the turbulent forcing parameter as $b=0.4$ assuming a mixture of solenoidal and compressive modes for turbulence. The only free parameter of this model is the protostellar feedback (PSFB) parameter $\epsilon$ \cite{Schmidt2011} which aims to account for feedback processes that occur at the moment of the molecular cloud collapse, when a fraction $(1-\epsilon)$ of the gas is expected to be blown away by winds, jets and outflows \citep{Wardle1993,Konigl2000,Pudritz2007,Peters2011,Seifried2011,Federrath2012} while the remaining fraction $\epsilon\leq 1$ contributes to the masses of the future stars. We have fixed this parameter to a fiducial value of $\epsilon = 0.09$ that was found to give best results in \cite{Nunez2021}. For the critical logarithmic density contrast we adopt the definition of \cite{krumholz2005general} 
+\begin{equation}
+s_{\mathrm{crit}} = \ln\left( \frac{\pi^2}{5}\phi_x^2 \alpha_{\mathrm{vir}}
+\mathcal{M}^2 
+\right) 
+\end{equation}
+where the virial parameter is defined as $\alpha_{\mathrm{vir}}=2E_{\mathrm{kin}}/|E_{\mathrm{grav}}|$ as in eq.~\ref{eq:alpha1} and the rms Mach number $\mathcal{M}=\sigma/c_s$ is written in terms of the velocity dispersion of the gas cell, $\sigma$, and the sound speed of the cell, $c_s$. The empirical parameters $\phi_t = 0.49$ and $\phi_x = 0.19$ are determined from simulations and are meant to account for uncertainties in the model.
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width = 0.5\textwidth]{figures/efficiency_comparison.pdf}
+    \caption{Comparison of different star formation efficiency, $\epsilon_{\rm ff}$ as a function of virial parameter $\alpha_{\rm vir}$ for the models of \citet[][blue]{Padoan_2012}, \citet[][pink]{Hopkins_2013}, \citet[][grey]{Evans_2022}, \citet[][lightgreen]{Semenov_2016} and \citet{Federrath2012} with the Mach number = 0.01 (yellow), 0.1 (darkgreen), 1.0 (red), 10.0 (purple), 100.0 (brown). \T{Shall we remove Semenov and Evans and only keep the models we actually use? Or leave Semenov and Evans as a variant of Padoan's model?} \textcolor{orange}{Maybe leave it as a variant and say that Evans leads to too low SFEs and that there is no significant difference between Padoan and Semenov, so we use Padoan and adopt Semenovs factor?}}
+\end{center}
+\end{figure}
+
+\subsection{Feedback}
+\label{sec:feedback}
+
+We model the energy input from stellar winds and photoionisation from luminous young stars following the 'early stellar feedback' prescriptions in \citet{Stinson2013} and inject the resulting feedback energy as pure thermal feedback. This mode consists of the total stellar luminosity ($2 \times 10^{50}$ erg of thermal energy per $M_{\odot}$) of the entire stellar population with an efficiency for coupling the energy input of $\epsilon_{\rm ESF}=13\%$ \citep{Wang2015}. The energy input from CC-SN and SN\,Ia blastwaves is implemented following \citet{Stinson2006} using self-consistent supernovae rates calculated by the stellar evolution models described below. Supernova blastwaves make use of a delayed cooling formalism for particles inside the blast region following \citet{McKee1977} in order to account for the adiabatic expansion of the supernova.
+For both feedback channels the efficiency parameters were chosen such that one MW mass galaxy respects the abundance matching relations \citep{Behroozi2013,Kravtsov2018,Moster2018} at all redshifts. 
+
+Elemental feedback from CC-SN, SN\,Ia and AGB stars is implemented as described in \citet{Buck2021}. We tabulate the time resolved, mass dependent element release of a single stellar population as a function of initial metallicity in a grid of 50 metallicity bins logarithmically spaced between $10^{-5}-0.05$ in metallicity with each metal bin resolved by 100 time bins logarithmically spaced in time from $0-13.8$ Gyr. All our simulations track the evolution of the 10 most abundant elements by default (H, He, O, C, Ne, Fe, N, Si, Mg, S) while any other element present in the yield tables can additionally be tracked. Our fiducial combination of yield tables uses SN\,Ia yields from \citet{Seitenzahl2013}, CC-SN yields from \citet{Chieffi2004} and AGB star yields from \citet{Karakas2016}.
+
+Galaxy models simulated with the fiducial threshold based star formation and the feedback described above result in realistic MW-like galaxies and have previously been used to study the build-up of MW's peanut-shaped bulge \citep{Buck2018,Buck2019b}, investigate the stellar bar properties \citep{Hilmi2020}, infer the MW's dark halo spin \citep{Obreja2022}, study the dwarf galaxy inventory of MW mass galaxies \citep{Buck2019} or investigate the age-metallicity relation of MW disk stars \citep{Lu2022,Buck2023} including the origin of the chemical bimodality of disk stars \citep{Buck2020}, their abundances \citep{Lu2022a} and the origin of very metal-poor stars inside the stellar disk \citep{Sestito2021}.
+Comparing the properties of these galaxies with observations of the MW and local disk galaxies from the SPARC data \citep{Lelli2016}, \citet{Buck2020a} showed that simulated galaxy properties agree well with observations.
+
+
+\subsection{Galaxy model}
+Our initial conditions are created with the publicly available \texttt{pyICs} code \citep{Herpich2017} and span a range of numerical resolutions with particle masses between ?? and ?? (for more details see Tab.~\ref{tab:sims}). 
+
+The initial conditions are set up in four steps: First, we
+created an equilibrium NFW DM halo \citep{Navarro1996}
+following the recipe from \cite{Kazantzidis2004}, including
+an exponential cutoff outside $R_{200}$. Next, the mass
+of each DM particle is reduced by a factor of $f_b$, the baryon
+fraction, and a gas particle is added at the same position,
+accounting for the mass difference between the old and the
+new DM particle. The resulting gas sphere is then rotated by some random angle in order to prevent gas and DM particles from sharing identical
+positions.
+
+In order to set the gas velocities, we establish a cylindrical coordinate system $(v_R, v_c, v_z)$ such that the gas orbits about the $z$-axis. The velocities are set to obey the angular momentum profile for DM haloes as found by \cite{Bullock2001} for cosmological N-body simulations:
+\begin{align}
+\frac{M(< j)}{M_{200}} = \frac{\mu j/j_{\text{max}}}{j/j_{\text{max}} + \mu - 1}
+\end{align}
+where $M(< j)$ is the mass of all material that has less angular momentum than $j$, $\mu$ is the shape parameter, and $j_{\text{max}}$ is the maximum specific angular momentum in the halo. 
+$j_{\text{max}}$ depends on the value of $\mu$ and is proportional to the spin parameter $\lambda$. While $\lambda$ simply scales the gas particles' angular
+momentum, $\mu$ sets the actual mass distribution of $j/j_{\text{max}}$. For $\lambda$ we use the definition of the spin parameter from \cite{Bullock2001}:
+\begin{align}
+\lambda = \frac{J}{\sqrt{2} M_{\text{vir}} V_{\text{vir}}} \Bigg|_{R=R_{200}}
+\end{align}
+%
+Here $J$ and $M$ are the halo angular momentum and mass
+inside a sphere of radius $R$, and $V$ is the halo circular velocity at that radius. Radial and vertical velocities were set
+to $v_R = v_z = 0$. Tangential velocities are a function of the
+axisymmetric radius only ($v_t(R, \phi, z) = v_t(R)$). However,
+the DM halo does not rotate in our simulations. Finally, the
+gas temperatures were calculated such that the gas obeys
+hydrostatic equilibrium.
+
+For our simulations, we keep the parameters $\mu = 1.3$ and $\lambda=0.08$ fixed. The latter is roughly in agreement with the spin parameter of the MW \citep{Obreja2022,Obreja2023}.
+
+%--------------------------------------------------------------------
+\section{Results}
+
+\subsection{Star formation histories}
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width = 0.5\textwidth]{figures/SFH_time.pdf}
+    \caption{\T{update to latest version...} \textcolor{orange}{done} The SFR of newly formed stars (age < 1.49 Gyr) of a low resolution isolated galaxy simulation using the threshold-based SF model (blue) and the virial SF models of Padoan et al. (2012) with a high (orange) and low resolution (green) as well as a SFE cut (red), the multi-freefall model of Federrath and Klessen (2012) in high (purple) and low (brown) resolution with a SFE cut (pink).}
+\end{center}
+\end{figure}
+
+\subsection{Galactic stellar morphology}
+\T{Do we really want to show velocity dispersion maps and temperature maps? I think more quantitative plots like in semenov or our Figs. 8 and 9 will be better.
+Then we can merge the two subsections and just show gas morphology and profiles...}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/stellar_dens.pdf}
+    \caption{The stellar density of newly formed stars (age < 1.49 Gyr) in the x-y-plane (upper row) and x-z-plane (bottom row) using (from left to right) the threshold-based model with a spin parameter of $\lambda$ = 0.08 with a resolution of $10^5$ particles and $10^6$ particles, the model of Semenov et al. (2016) without and with a SFE cut $\epsilon = 10^{-3}$ and the multi-freefall model of Federrath and Klessen (2012)  without and with a SFE cut $\epsilon = 10^{-3}$. \T{Update to the new sims from Jacob's ICs.} \textcolor{orange}{done}}
+\end{center}
+\end{figure*}
+
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/surf_dens.pdf}
+    \caption{The radial surface density of a) newly formed stars (age < 1.49 Gyr) and b) the cold gas (T < 30000 K) of a medium resolution simulation using the threshold-based model (blue), the model of Padoan et al. (2012) (yellow) and the multi-freefall model of Federrath and Klessen (2012) without a temperature cut (green) and with a temperature cut (red). \T{Update to the new sims from Jacob's ICs. and the models we use. Also we should probably add the vertical scale height profile.}\textcolor{orange}{done}}
+\end{center}
+\end{figure*}
+
+
+\subsection{Galactic ISM morphology}
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/dens_map.pdf}
+    \caption{The gas density distribution in the x-y-plane (upper row) and x-z-plane (bottom row) using a) the
+threshold-based model, b) the model of Padoan et al. (2012), c) the model of Evans et al. (2022) and d) the multi-freefall model of Federrath and Klessen (2012) without a temperature cut in a high resolution galaxy. \T{Update to the new sims from Jacob's ICs.}\textcolor{orange}{done}
+}
+\end{center}
+\end{figure*}
+
+
+\subsection{ISM conditions at star formation}
+
+\T{look at semenov again, we might want to do some additional analysis as in their Fig. 2...}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/dens_temp.pdf}
+    \includegraphics[width = \textwidth]{figures/dens_temp2.pdf}
+    \caption{Density-temperature phase diagram of the gas for the threshold-based model, multi-freefall model of Federrath \& Klessen (2012) and the model of Padoan et al. (2012) in different resolutions and with a SFE cut. The contours indicate position in the diagram for the last 100 Myr of different values of formed stellar mass. \T{Update to the new sims from Jacob's ICs.} \textcolor{orange}{done}}
+\end{center}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/alpha_histogram.pdf}
+    \includegraphics[width = \textwidth]{figures/eff_histogram.pdf}
+    \caption{ \T{Lets add histograms of alpha form and efficiency form.} }
+\end{center}
+\end{figure*}
+
+\subsection{Comparison to observed Kennicutt-Schmidt relations}
+
+\begin{figure}
+\begin{center}
+    \includegraphics[width = 0.5\textwidth]{figures/KS_law.pdf}
+    \caption{The Kennicutt-Schmidt relation for young stars (age < 100 Myr). The solid green line shows the empirical Kennicutt relation (Kennicutt 1998), the dashed lines show the 0.1, 1 and 10\% star formation efficiency. A high resolution simulation of an isolated galaxy was used with the threshold-based SF model in low (blue) and high (orange) resolution and the virial SF models of Padoan et al. (2012) with low (red) and high (green) resolution and a SFE cut (purple), the multi-freefall model of Federrath and Klessen (2012) in low (pink) and high (brown) resolution and with a SFE cut (grey). \T{Update to the new sims from Jacob's ICs. and with only those models we use in the end.} \textcolor{orange}{done}}
+\end{center}
+\end{figure}
+
+\subsection{Spatial distribution pf young stars / star formation regions}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/two_point.pdf}
+    \caption{ \T{Lets add the two point correlation function of young stars if we still are eager to do it. Could also be a separate letter...}}
+\end{center}
+\end{figure*}
+
+
+%-------------------------------------- Two column figure (place early!)
+
+\section{Conclusions}
+
+   \begin{enumerate}
+      \item 
+      \item 
+      \item 
+   \end{enumerate}
+
+\begin{acknowledgements}
+      TB’s and AO's contribution to this project was made possible by funding from the Carl-Zeiss-Stiftung.
+      AO contribution to this work was supported by the German \emph{Deut\-sche For\-schungs\-ge\-mein\-schaft, DFG\/} project number 443044596.
+      The authors  gratefully acknowledge the Gauss Centre for Supercomputing e.V.\ (\url{www.gauss-centre.eu}) for funding this project by providing computing time on the GCS Supercomputer SuperMUC at the Leibniz Supercomputing Centre (\url{www.lrz.de}) and the High Performance Computing resources at New York University Abu Dhabi.
+      This work made use of the open-source python initial condition creation package {\sc pyICs} written by Jakob Herpich (\url{https://github.com/jakobherpich/pyICs}).
+\end{acknowledgements}
+
+
+\bibliographystyle{aa} %  
+\bibliography{lit.bib}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/temp_map.pdf}
+    \caption{The gas temperature distribution in the x-y-plane (upper row) and x-z-plane (bottom row) using a) the
+threshold-based model, b) the model of Padoan et al. (2012), c) the model of Evans et al. (2022) and d) the multi-freefall model of Federrath and Klessen (2012) without a temperature cut in a high resolution galaxy. \T{Update to the new sims from Jacob's ICs.}\textcolor{orange}{done}
+}
+\end{center}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+    \includegraphics[width = \textwidth]{figures/vdisp_map.pdf}
+    \caption{The velocity dispersion distribution in the x-y-plane (upper row) and x-z-plane (bottom row) using a) the
+threshold-based model, b) the model of Padoan et al. (2012), c) the model of Evans et al. (2022) and d) the multi-freefall model of Federrath and Klessen (2012) without a temperature cut in a high resolution galaxy. \T{Update to the new sims from Jacob's ICs.}\textcolor{orange}{done}
+}
+\end{center}
+\end{figure*}
 
 \end{document}

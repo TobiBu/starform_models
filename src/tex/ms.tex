@@ -28,7 +28,7 @@
 \bibliographystyle{mnras}
 \usepackage{empheq}
 \usepackage{tabu,booktabs}
-\usepackage{amsmath, amssymb}
+\usepackage{amsmath}
 \usepackage{xcolor}
 \usepackage[english]{babel}
 \usepackage{graphicx}
@@ -41,6 +41,8 @@
 %\usepackage{pdflscape}
 
 %%%%% AUTHORS - PLACE YOUR OWN MACROS HERE %%%%%
+
+\newcommand{\vect}[1]{\boldsymbol{#1}}
 
 \newcommand{\C}{\texttt{Chempy}}
 \newcommand{\G}{\texttt{Gasoline2}}
@@ -395,7 +397,7 @@ The sums extend over all SPH neighbours, $q$, $\delta_{ij}$ denotes the Kronecke
 With Eq. \ref{eq:diff} the diffusion expression for a scalar variable $A_p$ of particle $p$ can be computed as follows:
 \begin{align}
 D_p &= C\ |S_{ij}|_p|\ h_p^2,\nonumber \\
-\frac{dA_p}{dt} &= -\sum_q m_q \frac{(D_p+D_q)(A_p-A_q)(\mathbfit{r}_{pq}\cdot\nabla_p W_{pq})}{\frac{1}{2}(\rho_p+\rho_q)\,\mathbfit{r}_{pq}^2},
+\frac{dA_p}{dt} &= -\sum_q m_q \frac{(D_p+D_q)(A_p-A_q)(\vect{r}_{pq}\cdot\nabla_p W_{pq})}{\frac{1}{2}(\rho_p+\rho_q)\,\vect{r}_{pq}^2},
 \end{align}
 Finally, the coefficient $C_{\rm turb}$ is set to 0.05 \citep{Wadsley2008,Shen2010}.
 
